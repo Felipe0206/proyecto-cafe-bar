@@ -1,0 +1,124 @@
+.reservas-cliente-container {
+  padding: 0;
+}
+
+.reservas-cliente-container header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.reservas-cliente-container h1 {
+  font-size: 2.5rem;
+  color: #333;
+  font-weight: 700;
+}
+
+/* Grid de reservas */
+.reservas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.reserva-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  position: relative;
+}
+
+.reserva-card.confirmada {
+  border-left: 4px solid #27ae60;
+}
+
+.reserva-card.pendiente {
+  border-left: 4px solid #f39c12;
+}
+
+.reserva-card.cancelada {
+  border-left: 4px solid #e74c3c;
+  opacity: 0.7;
+}
+
+.reserva-icon {
+  font-size: 3rem;
+}
+
+.reserva-info {
+  flex: 1;
+}
+
+.reserva-info h3 {
+  margin-bottom: 0.75rem;
+  color: #333;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.reserva-info p {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.estado {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+
+.estado.confirmada {
+  background: #d4edda;
+  color: #155724;
+}
+
+.estado.pendiente {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.estado.cancelada {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.btn-cancelar {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.btn-cancelar:hover {
+  background: #c0392b;
+}
+
+/* Modal */
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .reservas-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,40 @@
+# Node
+cafebar-react/node_modules/
+cafebar-react/dist/
+cafebar-react/.env
+
+# Java compilados
+cafebar-java/bin/
+cafebar-java/build/
+*.class
+
+# Tomcat binarios (demasiado pesados)
+apache-tomcat-9.0.95/bin/
+apache-tomcat-9.0.95/lib/
+apache-tomcat-9.0.95/temp/
+apache-tomcat-9.0.95/work/
+apache-tomcat-9.0.95/logs/
+apache-tomcat-9.0.95/webapps/docs/
+apache-tomcat-9.0.95/webapps/examples/
+apache-tomcat-9.0.95/webapps/host-manager/
+apache-tomcat-9.0.95/webapps/manager/
+apache-tomcat-9.0.95/webapps/ROOT/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Claude Code (herramienta de desarrollo local)
+.claude/
+
+# Archivos WAR compilados
+*.war
+
+# Clases compiladas de Tomcat
+apache-tomcat-9.0.95/webapps/cafebar/WEB-INF/classes/

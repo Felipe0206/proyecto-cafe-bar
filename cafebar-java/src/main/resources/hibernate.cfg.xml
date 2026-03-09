@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- =============================================
+             CONFIGURACIÓN DE CONEXIÓN A BASE DE DATOS
+             Sistema de Gestión Café Bar - Hibernate ORM
+             ============================================= -->
+
+        <!-- Configuración del Driver MySQL -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+
+        <!-- URL de conexión a la base de datos -->
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cafe_bar_db?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true</property>
+
+        <!-- Credenciales de acceso -->
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">Andres.0206</property>
+
+        <!-- =============================================
+             CONFIGURACIÓN DE DIALECTO Y COMPORTAMIENTO
+             ============================================= -->
+
+        <!-- Dialecto MySQL: Define el SQL específico para MySQL -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+
+        <!-- Mostrar SQL en consola (útil para debug y evidencias) -->
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- Formatear SQL para mejor lectura -->
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- Comentarios SQL para identificar operaciones -->
+        <property name="hibernate.use_sql_comments">true</property>
+
+        <!-- =============================================
+             CONFIGURACIÓN DE ESQUEMA
+             ============================================= -->
+
+        <!--
+            hbm2ddl.auto: Gestión automática del esquema
+            - validate: Solo valida el esquema (producción)
+            - update: Actualiza el esquema si es necesario (desarrollo)
+            - create: Crea el esquema, destruyendo datos previos
+            - create-drop: Crea al inicio y destruye al cerrar
+        -->
+        <property name="hibernate.hbm2ddl.auto">validate</property>
+
+        <!-- =============================================
+             CONFIGURACIÓN DE POOL DE CONEXIONES
+             ============================================= -->
+
+        <!-- Pool de conexiones C3P0 (opcional, mejora rendimiento) -->
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
+
+        <!-- =============================================
+             CONFIGURACIÓN DE CONTEXTO
+             ============================================= -->
+
+        <!-- Contexto de sesión actual -->
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!-- =============================================
+             MAPEO DE ENTIDADES (CLASES ANOTADAS)
+             ============================================= -->
+
+        <!-- Registro de entidades del sistema Café Bar -->
+        <mapping class="com.cafebar.models.Usuario"/>
+        <mapping class="com.cafebar.models.Producto"/>
+        <mapping class="com.cafebar.models.Mesa"/>
+        <mapping class="com.cafebar.models.Categoria"/>
+        <mapping class="com.cafebar.models.Pedido"/>
+        <mapping class="com.cafebar.models.DetallePedido"/>
+        <mapping class="com.cafebar.models.Reserva"/>
+
+    </session-factory>
+</hibernate-configuration>

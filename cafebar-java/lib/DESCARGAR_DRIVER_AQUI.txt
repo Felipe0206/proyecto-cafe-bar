@@ -1,0 +1,79 @@
+======================================================================
+  IMPORTANTE: DESCARGAR EL DRIVER JDBC DE MYSQL
+======================================================================
+
+Esta carpeta necesita contener el archivo:
+  mysql-connector-java-8.0.33.jar
+
+----------------------------------------------------------------------
+OPCION 1: Descarga Directa (Recomendada)
+----------------------------------------------------------------------
+
+1. Ve a este enlace:
+   https://dev.mysql.com/downloads/connector/j/
+
+2. En "Select Operating System", selecciona:
+   "Platform Independent"
+
+3. Descarga el archivo:
+   "Platform Independent (Architecture Independent), ZIP Archive"
+
+4. Extrae el archivo ZIP
+
+5. Busca el archivo .jar que se llama algo como:
+   mysql-connector-java-8.0.33.jar
+   (o mysql-connector-j-8.0.33.jar en versiones mas nuevas)
+
+6. COPIA ese archivo .jar a esta carpeta:
+   C:\Users\USER\Desktop\cafebar-sean\cafebar-java\lib\
+
+----------------------------------------------------------------------
+OPCION 2: Descarga Alternativa
+----------------------------------------------------------------------
+
+Enlace directo al repositorio Maven:
+https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/
+
+Descarga:
+mysql-connector-java-8.0.33.jar
+
+Y copialo a esta carpeta.
+
+----------------------------------------------------------------------
+OPCION 3: Version mas reciente
+----------------------------------------------------------------------
+
+Si quieres la version mas actual:
+https://dev.mysql.com/downloads/connector/j/
+
+Y descarga la ultima version disponible.
+
+IMPORTANTE: Si descargas una version diferente (por ejemplo 8.1.0),
+deberas actualizar los scripts compilar.ps1 y ejecutar.ps1 con el
+nombre correcto del archivo .jar
+
+----------------------------------------------------------------------
+VERIFICAR QUE FUNCIONO
+----------------------------------------------------------------------
+
+Despues de copiar el archivo .jar aqui, verifica que este:
+
+En PowerShell:
+  dir
+
+Deberias ver:
+  mysql-connector-java-8.0.33.jar
+
+----------------------------------------------------------------------
+CONTINUAR CON LA INSTALACION
+----------------------------------------------------------------------
+
+Una vez que tengas el archivo .jar en esta carpeta:
+
+1. Ejecuta:
+   .\compilar.ps1
+
+2. Luego:
+   .\ejecutar.ps1
+
+======================================================================

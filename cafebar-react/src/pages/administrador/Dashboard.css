@@ -1,0 +1,134 @@
+/* KPIs para Admin */
+.kpis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.kpi-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  border-left: 5px solid;
+}
+
+.kpi-card.kpi-success {
+  border-left-color: #27ae60;
+}
+
+.kpi-card.kpi-info {
+  border-left-color: #3498db;
+}
+
+.kpi-card.kpi-warning {
+  border-left-color: #f39c12;
+}
+
+.kpi-card.kpi-primary {
+  border-left-color: #667eea;
+}
+
+.kpi-icon {
+  font-size: 4rem;
+}
+
+.kpi-content h3 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.kpi-content p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Top Productos */
+.top-productos {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 3rem;
+}
+
+.top-productos h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.tabla-productos {
+  width: 100%;
+  font-size: 1.05rem;
+}
+
+/* Módulos de Gestión */
+.modulos-gestion {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.modulos-gestion h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.modulos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2rem;
+}
+
+.modulo-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.modulo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+}
+
+.modulo-card span {
+  display: block;
+  font-size: 3.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.modulo-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.modulo-card p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .kpis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modulos-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,215 @@
+.dashboard-trabajador,
+.dashboard-admin {
+  padding: 0;
+}
+
+.dashboard-trabajador header,
+.dashboard-admin header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.dashboard-trabajador h1,
+.dashboard-admin h1 {
+  font-size: 2.5rem;
+  color: #333;
+  font-weight: 700;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  border-left: 5px solid;
+}
+
+.stat-card.stat-warning {
+  border-left-color: #f39c12;
+}
+
+.stat-card.stat-success {
+  border-left-color: #27ae60;
+}
+
+.stat-card.stat-info {
+  border-left-color: #3498db;
+}
+
+.stat-card.stat-danger {
+  border-left-color: #e74c3c;
+}
+
+.stat-icon {
+  font-size: 4rem;
+}
+
+.stat-info h3 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.stat-info p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Actividad Reciente */
+.actividad-reciente {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.actividad-reciente h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.pedidos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pedido-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.pedido-item:hover {
+  background: #e9ecef;
+}
+
+.pedido-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.pedido-info .numero {
+  font-weight: 700;
+  color: #667eea;
+}
+
+.pedido-info .mesa {
+  color: #666;
+}
+
+.pedido-detalles {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.pedido-detalles .hora {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.pedido-detalles .estado {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.estado.pendiente {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.estado.en_preparacion {
+  background: #cfe2ff;
+  color: #084298;
+}
+
+.estado.listo {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.estado.entregado {
+  background: #d3d3d4;
+  color: #212529;
+}
+
+/* Acciones Rápidas */
+.acciones-rapidas {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.acciones-rapidas h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.acciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.accion-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.accion-card:hover {
+  background: white;
+  border-color: #667eea;
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.accion-card span {
+  display: block;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.accion-card p {
+  font-weight: 600;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .acciones-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
