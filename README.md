@@ -1,37 +1,18 @@
 ﻿# Sistema de Gestión Café Bar
 
-Sistema web completo para la gestión de un café bar, desarrollado con arquitectura cliente-servidor usando **Java Servlets** en el backend y **React** en el frontend.
+Sistema web completo para la gestión de un café bar, desarrollado con arquitectura **Modelo - Vista - Controlador (MVC)** usando **Java Servlets** en el backend y **React** en el frontend.
 
 ---
 
 ## Arquitectura del Sistema
 
-**Frontend** — React + Vite (puerto 5173)
+El sistema implementa el patrón **Modelo - Vista - Controlador (MVC)**:
 
-| Ruta | Rol |
-|------|-----|
-| `/cliente/...` | Cliente / Cajero |
-| `/trabajador/...` | Mesero / Chef |
-| `/admin/...` | Administrador / Gerente |
-| `/login` | Todos |
-
-El frontend se comunica con el backend mediante **HTTP REST (JSON)** usando `fetch` y `axios`.
-
-**Backend** — Apache Tomcat 9.0.95 (puerto 8080)
-
-```
-Java Servlets  →  JDBC  →  MySQL (cafe_bar_db)
-```
-
-| Endpoint | Descripción |
-|----------|-------------|
-| `/api/login` | Autenticación |
-| `/api/usuarios` | Gestión de usuarios |
-| `/api/productos` | Gestión de productos |
-| `/api/categorias` | Categorías del menú |
-| `/api/mesas` | Gestión de mesas |
-| `/api/pedidos` | Pedidos con detalle |
-| `/api/reservas` | Reservas de mesas |
+| Capa | Tecnología | Descripción |
+|------|-----------|-------------|
+| **Modelo** | Java + MySQL | Clases de dominio y acceso a datos (`models/`, `dao/`) |
+| **Vista** | React + Vite | Interfaz de usuario, organizada por roles |
+| **Controlador** | Java Servlets | Reciben las peticiones HTTP y coordinan la respuesta |
 
 ---
 
