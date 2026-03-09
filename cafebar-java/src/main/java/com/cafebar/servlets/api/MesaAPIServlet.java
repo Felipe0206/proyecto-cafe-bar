@@ -15,7 +15,7 @@ import java.sql.*;
  * API REST para Mesas del Café Bar
  * Endpoints: GET /api/mesas, POST, PUT, DELETE
  *
- * @author Andrés Felipe Gil Gallo / Carlos Alberto Ruiz Burbano / Juan Diego Ríos Franco
+ * @author Andrés Felipe Gil Gallo
  * @version 1.0
  */
 @WebServlet(name = "MesaAPIServlet", urlPatterns = {"/api/mesas"})

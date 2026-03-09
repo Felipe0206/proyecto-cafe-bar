@@ -15,7 +15,7 @@ import java.sql.*;
  * API REST para Categorías del menú
  * Endpoint: GET /api/categorias
  *
- * @author Andrés Felipe Gil Gallo / Carlos Alberto Ruiz Burbano / Juan Diego Ríos Franco
+ * @author Andrés Felipe Gil Gallo
  * @version 1.0
  */
 @WebServlet(name = "CategoriasAPIServlet", urlPatterns = {"/api/categorias"})

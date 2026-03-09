@@ -18,7 +18,7 @@ import java.util.List;
  * API REST para Pedidos del Café Bar
  * Endpoints: GET /api/pedidos, POST, PUT, DELETE
  *
- * @author Andrés Felipe Gil Gallo / Carlos Alberto Ruiz Burbano / Juan Diego Ríos Franco
+ * @author Andrés Felipe Gil Gallo
  * @version 1.0
  */
 @WebServlet(name = "PedidosAPIServlet", urlPatterns = {"/api/pedidos"})

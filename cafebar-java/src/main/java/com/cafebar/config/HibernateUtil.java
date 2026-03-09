@@ -16,8 +16,6 @@ import org.hibernate.cfg.Configuration;
  * Evidencia: GA7-220501096-AA3-EV01
  *
  * @author Andrés Felipe Gil Gallo
- * @author Carlos Alberto Ruiz Burbano
- * @author Juan Diego Ríos Franco
  * @version 1.0
  */
 public class HibernateUtil {

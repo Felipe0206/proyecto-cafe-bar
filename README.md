@@ -6,27 +6,32 @@ Sistema web completo para la gestión de un café bar, desarrollado con arquitec
 
 ## Arquitectura del Sistema
 
+**Frontend** — React + Vite (puerto 5173)
+
+| Ruta | Rol |
+|------|-----|
+| `/cliente/...` | Cliente / Cajero |
+| `/trabajador/...` | Mesero / Chef |
+| `/admin/...` | Administrador / Gerente |
+| `/login` | Todos |
+
+El frontend se comunica con el backend mediante **HTTP REST (JSON)** usando `fetch` y `axios`.
+
+**Backend** — Apache Tomcat 9.0.95 (puerto 8080)
+
 ```
-┌──────────────────────────────────────────────────────────────┐
-│             CLIENTE               │
-│        React + Vite (puerto 5173)          │
-│  ┌──────────┐ ┌───────────┐ ┌──────────┐ ┌──────────┐ │
-│  │ /cliente │ │/trabajador│ │ /admin │ │ /login │ │
-│  └──────────┘ └───────────┘ └──────────┘ └──────────┘ │
-└─────────────────────────┬────────────────────────────────────┘
-             │ HTTP REST (JSON)
-             │ fetch() / axios
-┌─────────────────────────▼────────────────────────────────────┐
-│            SERVIDOR               │
-│      Apache Tomcat 9.0.95 (puerto 8080)        │
-│                               │
-│  Java Servlets ──► JDBC ──► MySQL (cafe_bar_db)     │
-│                               │
-│  /api/login    /api/productos   /api/pedidos     │
-│  /api/usuarios   /api/categorias  /api/reservas     │
-│  /api/mesas                         │
-└──────────────────────────────────────────────────────────────┘
+Java Servlets  →  JDBC  →  MySQL (cafe_bar_db)
 ```
+
+| Endpoint | Descripción |
+|----------|-------------|
+| `/api/login` | Autenticación |
+| `/api/usuarios` | Gestión de usuarios |
+| `/api/productos` | Gestión de productos |
+| `/api/categorias` | Categorías del menú |
+| `/api/mesas` | Gestión de mesas |
+| `/api/pedidos` | Pedidos con detalle |
+| `/api/reservas` | Reservas de mesas |
 
 ---
 
@@ -251,5 +256,5 @@ http://localhost:5173
 
 ## Autores
 
-**Andrés Felipe Gil Gallo · Carlos Alberto Ruiz Burbano · Juan Diego Ríos Franco**
+**Andrés Felipe Gil Gallo**
 SENA — Tecnología en Análisis y Desarrollo de Software

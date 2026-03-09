@@ -6,26 +6,20 @@ Módulo backend del sistema de gestión Café Bar. Expone una **API REST** media
 
 ## Arquitectura del Backend
 
+El flujo de cada petición HTTP es el siguiente:
+
 ```
 HTTP Request
-   │
-   ▼
-┌─────────────────────────────────┐
-│    Apache Tomcat 9     │
-│                 │
-│ @WebServlet("/api/productos") │
-│     │            │
-│  Servlet (doGet/doPost...)  │
-│     │            │
-│  ApiHelper (CORS + JSON)   │
-│     │            │
-│  JDBC PreparedStatement    │
-│     │            │
-│  MySQL cafe_bar_db      │
-└─────────────────────────────────┘
-   │
-   ▼
-JSON Response {"success": true, "data": [...]}
+    →  @WebServlet (Java Servlet)
+    →  ApiHelper (CORS + parseo JSON)
+    →  JDBC PreparedStatement
+    →  MySQL cafe_bar_db
+    →  JSON Response
+```
+
+Ejemplo de respuesta:
+```json
+{ "success": true, "data": [...] }
 ```
 
 ---
@@ -198,5 +192,5 @@ javac -cp "$WEBINF/lib/mysql-connector-j-9.5.0.jar;$TOMCAT/lib/servlet-api.jar;$
 
 ## Autores
 
-**Andrés Felipe Gil Gallo · Carlos Alberto Ruiz Burbano · Juan Diego Ríos Franco**
+**Andrés Felipe Gil Gallo**
 SENA — Tecnología en Análisis y Desarrollo de Software

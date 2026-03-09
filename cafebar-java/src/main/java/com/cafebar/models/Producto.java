@@ -13,8 +13,6 @@ import java.sql.Timestamp;
  * Framework: Hibernate ORM
  *
  * @author Andrés Felipe Gil Gallo
- * @author Carlos Alberto Ruiz Burbano
- * @author Juan Diego Ríos Franco
  * @version 2.0 (Hibernate ORM)
  */
 @Entity

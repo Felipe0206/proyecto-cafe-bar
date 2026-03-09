@@ -164,5 +164,5 @@ npm run build
 
 ## Autores
 
-**Andrés Felipe Gil Gallo · Carlos Alberto Ruiz Burbano · Juan Diego Ríos Franco**
+**Andrés Felipe Gil Gallo**
 SENA — Tecnología en Análisis y Desarrollo de Software

@@ -15,7 +15,7 @@ import java.sql.*;
  * API REST para Usuarios del Café Bar
  * Endpoints: GET /api/usuarios, POST, PUT, DELETE
  *
- * @author Andrés Felipe Gil Gallo / Carlos Alberto Ruiz Burbano / Juan Diego Ríos Franco
+ * @author Andrés Felipe Gil Gallo
  * @version 1.0
  */
 @WebServlet(name = "UsuariosAPIServlet", urlPatterns = {"/api/usuarios"})

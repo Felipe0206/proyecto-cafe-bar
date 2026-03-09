@@ -12,8 +12,6 @@ import java.util.HashMap;
  * Maneja CORS, lectura de JSON y construcción de respuestas
  *
  * @author Andrés Felipe Gil Gallo
- * @author Carlos Alberto Ruiz Burbano
- * @author Juan Diego Ríos Franco
  * @version 1.0
  */
 public class ApiHelper {
