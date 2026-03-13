@@ -11,7 +11,7 @@
 
 .usuarios-container h1 {
   font-size: 2.5rem;
-  color: #333;
+  color: #1C1008;
   font-weight: 700;
 }
 
@@ -31,16 +31,18 @@
   cursor: pointer;
   transition: all 0.3s;
   font-weight: 500;
+  color: #2C1A0E;
 }
 
 .filtros button.active {
-  background: #667eea;
+  background: #C8862A;
   color: white;
-  border-color: #667eea;
+  border-color: #C8862A;
 }
 
 .filtros button:hover {
-  border-color: #667eea;
+  border-color: #C8862A;
+  color: #C8862A;
 }
 
 /* Tabla */
@@ -49,28 +51,29 @@
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .tabla-usuarios thead {
-  background: #f8f9fa;
+  background: #1C1008;
 }
 
 .tabla-usuarios th {
   padding: 1rem;
   text-align: left;
   font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #e0e0e0;
+  color: #E8A830;
+  border-bottom: none;
 }
 
 .tabla-usuarios td {
   padding: 1rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #F7F3EE;
+  color: #2C1A0E;
 }
 
 .tabla-usuarios tbody tr:hover {
-  background: #f8f9fa;
+  background: #FDF8F2;
 }
 
 /* Badges */
@@ -88,13 +91,13 @@
 }
 
 .badge.rol-trabajador {
-  background: #fff3e0;
-  color: #f57c00;
+  background: #FDF3E0;
+  color: #C8862A;
 }
 
 .badge.rol-administrador {
-  background: #f3e5f5;
-  color: #7b1fa2;
+  background: #2C1A0E;
+  color: #E8A830;
 }
 
 .badge.success {
@@ -124,11 +127,11 @@
 }
 
 .btn-icon:hover {
-  background: #f0f0f0;
+  background: #F7F3EE;
 }
 
 .btn-editar:hover {
-  background: #e3f2fd;
+  background: #FDF3E0;
 }
 
 .btn-eliminar:hover {
@@ -142,7 +145,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -157,11 +160,12 @@
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
+  border-top: 4px solid #C8862A;
 }
 
 .modal-content h2 {
   margin-bottom: 1.5rem;
-  color: #333;
+  color: #1C1008;
 }
 
 .form-row {
@@ -178,7 +182,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #333;
+  color: #2C1A0E;
 }
 
 .form-group input,
@@ -193,7 +197,8 @@
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #C8862A;
+  box-shadow: 0 0 0 3px rgba(200, 134, 42, 0.15);
 }
 
 .modal-actions {

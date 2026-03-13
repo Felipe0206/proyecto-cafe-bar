@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { usuarioService } from '../../services/api';
+import { Edit2, Trash2, Users, Plus } from 'lucide-react';
 import './Usuarios.css';
 
 /**
@@ -105,9 +106,9 @@ const Usuarios = () => {
   return (
     <div className="usuarios-container">
       <header>
-        <h1>👥 Gestión de Usuarios</h1>
-        <button className="btn btn-primary" onClick={() => abrirModal()}>
-          + Nuevo Usuario
+        <h1>Gestión de Usuarios</h1>
+        <button className="btn btn-primary" onClick={() => abrirModal()} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Plus size={16} /> Nuevo Usuario
         </button>
       </header>
 
@@ -175,14 +176,14 @@ const Usuarios = () => {
                   onClick={() => abrirModal(usuario)}
                   title="Editar"
                 >
-                  ✏️
+                  <Edit2 size={14} />
                 </button>
                 <button
                   className="btn-icon btn-eliminar"
                   onClick={() => eliminarUsuario(usuario.idUsuario)}
                   title="Eliminar"
                 >
-                  🗑️
+                  <Trash2 size={14} />
                 </button>
               </td>
             </tr>

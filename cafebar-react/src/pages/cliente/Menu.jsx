@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { productoService, categoriaService, pedidoService, mesaService } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { Armchair, ShoppingCart, User, Trash2, UtensilsCrossed, CheckCircle, Clock, ChefHat, Bell, Receipt, X } from 'lucide-react';
 import './Menu.css';
 
 const API = 'http://localhost:8080/cafebar/api';
@@ -16,7 +17,7 @@ const Menu = () => {
   const [carrito, setCarrito] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalCarrito, setModalCarrito] = useState(false);
-  const [mesaId, setMesaId] = useState(searchParams.get('mesa') || null);
+  const [mesaId, setMesaId] = useState(parseInt(searchParams.get('mesa')) || null);
   const [mesas, setMesas] = useState([]);
   const [modalMesa, setModalMesa] = useState(false);
 
@@ -30,6 +31,12 @@ const Menu = () => {
 
   // Acción pendiente después de autenticarse
   const [pendingAction, setPendingAction] = useState(null);
+
+  // Seguimiento de pedido activo
+  const [pedidoActivo, setPedidoActivo] = useState(null);
+  const [showPedidoModal, setShowPedidoModal] = useState(false);
+  const [showCuenta, setShowCuenta] = useState(false);
+  const intervalRef = useRef(null);
 
   useEffect(() => { cargarDatos(); }, []);
 
@@ -70,40 +77,54 @@ const Menu = () => {
 
   const calcularTotal = () => carrito.reduce((t, i) => t + i.precio * i.cantidad, 0);
 
-  // Intenta realizar el pedido. Si no hay usuario, pide registro primero.
   const realizarPedido = () => {
     if (carrito.length === 0) { alert('El carrito está vacío'); return; }
     if (!mesaId) { setModalMesa(true); return; }
-
-    if (!user) {
-      // Guardar intención y abrir modal de auth
-      setPendingAction('pedido');
-      setModalAuth(true);
-      setModalCarrito(false);
-      return;
-    }
     enviarPedido();
   };
 
   const enviarPedido = async (usuarioOverride) => {
     const usuarioActual = usuarioOverride || user;
+    const totalPedido = calcularTotal();
+    const itemsPedido = [...carrito];
     try {
-      await pedidoService.create({
-        idMesa: String(mesaId),
+      const res = await pedidoService.create({
+        idMesa: String(parseInt(mesaId)),
         clienteId: usuarioActual?.clienteId ? String(usuarioActual.clienteId) : undefined,
         idUsuario: usuarioActual?.id ? String(usuarioActual.id) : undefined,
-        total: String(calcularTotal()),
+        total: String(totalPedido),
         tipoPedido: 'mesa',
-        items: carrito.map(i => ({ idProducto: String(i.id), cantidad: String(i.cantidad), precio: String(i.precio) }))
+        items: itemsPedido.map(i => ({ idProducto: String(i.id), cantidad: String(i.cantidad), precio: String(i.precio) }))
       });
       setCarrito([]);
       setModalCarrito(false);
-      alert(`✅ ¡Pedido realizado exitosamente!\n\nMesa: ${mesaId}\nTotal: $${calcularTotal().toLocaleString()}\n\nEn breve lo prepararemos.`);
+      const pedidoId = res.data.id;
+      const codigo = res.data.codigoPedido;
+      setPedidoActivo({ id: pedidoId, codigo, total: totalPedido, items: itemsPedido, estado: 'pendiente' });
+      setShowPedidoModal(true);
+      // Polling cada 8 segundos para actualizar estado
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      intervalRef.current = setInterval(async () => {
+        try {
+          const r = await pedidoService.getById(pedidoId);
+          const estado = r.data.data?.estado || r.data.estado;
+          setPedidoActivo(prev => {
+            if (!prev) return null;
+            if (prev.estado !== 'listo' && estado === 'listo') setShowPedidoModal(true);
+            return { ...prev, estado };
+          });
+          if (estado === 'entregado' || estado === 'cancelado') {
+            clearInterval(intervalRef.current);
+          }
+        } catch (_) {}
+      }, 8000);
     } catch (e) {
       console.error(e);
       alert('Error al realizar el pedido. Intente nuevamente.');
     }
   };
+
+  useEffect(() => () => { if (intervalRef.current) clearInterval(intervalRef.current); }, []);
 
   // Registro de nuevo cliente
   const handleRegistro = async (e) => {
@@ -173,29 +194,29 @@ const Menu = () => {
     <div className="menu-container">
       {/* Header del menú */}
       <header className="menu-header">
-        <h1>🍽️ Menú Café Bar</h1>
+        <h1><UtensilsCrossed size={22} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} />Menú Café Bar</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           {/* Mesa */}
           {mesaId ? (
-            <span className="mesa-info" style={{ cursor: 'pointer', background: '#eff6ff', color: '#2563eb', padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.88rem', fontWeight: '600' }}
+            <span className="mesa-info" style={{ cursor: 'pointer', background: '#eff6ff', color: '#2563eb', padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.88rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.3rem' }}
               onClick={() => setModalMesa(true)}>
-              🪑 Mesa #{mesaId} ✏️
+              <Armchair size={14} /> Mesa #{mesaId}
             </span>
           ) : (
-            <button className="btn btn-secondary" onClick={() => setModalMesa(true)} style={{ fontSize: '0.85rem' }}>
-              🪑 Seleccionar Mesa
+            <button className="btn btn-secondary" onClick={() => setModalMesa(true)} style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+              <Armchair size={14} /> Seleccionar Mesa
             </button>
           )}
 
           {/* Carrito */}
-          <button className="btn-carrito" onClick={() => setModalCarrito(true)} style={{ position: 'relative' }}>
-            🛒 {carrito.length > 0 ? `(${carrito.reduce((t,i)=>t+i.cantidad,0)})` : ''}
+          <button className="btn-carrito" onClick={() => setModalCarrito(true)} style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+            <ShoppingCart size={18} /> {carrito.length > 0 ? `(${carrito.reduce((t,i)=>t+i.cantidad,0)})` : ''}
           </button>
 
           {/* Usuario */}
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '0.85rem', color: '#374151' }}>👤 {user.nombre}</span>
+              <span style={{ fontSize: '0.85rem', color: '#374151', display: 'flex', alignItems: 'center', gap: '0.3rem' }}><User size={14} /> {user.nombre}</span>
               {['cliente','cajero'].includes(user.rol) && (
                 <Link to="/cliente/pedidos" style={{ fontSize: '0.8rem', color: '#2563eb', textDecoration: 'none' }}>Mis pedidos</Link>
               )}
@@ -225,7 +246,12 @@ const Menu = () => {
       <div className="productos-grid">
         {productosFiltrados.map(producto => (
           <div key={producto.idProducto} className="producto-card">
-            {producto.imagenUrl && <img src={producto.imagenUrl} alt={producto.nombre} style={{ width: '100%', height: '140px', objectFit: 'cover', borderRadius: '8px 8px 0 0' }} onError={e => e.target.style.display='none'} />}
+            {producto.imagenUrl
+              ? <img src={producto.imagenUrl} alt={producto.nombre} className="producto-img" onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
+              : null}
+            <div className="producto-img-placeholder" style={{ display: producto.imagenUrl ? 'none' : 'flex' }}>
+              <UtensilsCrossed size={32} color="#C8862A" />
+            </div>
             <div className="producto-info">
               <h3>{producto.nombre}</h3>
               {producto.descripcion && <p className="descripcion">{producto.descripcion}</p>}
@@ -250,9 +276,10 @@ const Menu = () => {
           position: 'fixed', bottom: '1.5rem', right: '1.5rem',
           background: '#2563eb', color: 'white', border: 'none', borderRadius: '50px',
           padding: '0.85rem 1.5rem', fontSize: '1rem', fontWeight: '600',
-          boxShadow: '0 4px 15px rgba(37,99,235,0.4)', cursor: 'pointer', zIndex: 100
+          boxShadow: '0 4px 15px rgba(37,99,235,0.4)', cursor: 'pointer', zIndex: 100,
+          display: 'flex', alignItems: 'center', gap: '0.5rem'
         }}>
-          🛒 Ver pedido ({carrito.reduce((t,i)=>t+i.cantidad,0)}) · ${calcularTotal().toLocaleString()}
+          <ShoppingCart size={18} /> Ver pedido ({carrito.reduce((t,i)=>t+i.cantidad,0)}) · ${calcularTotal().toLocaleString()}
         </button>
       )}
 
@@ -261,7 +288,7 @@ const Menu = () => {
         <div className="modal-overlay" onClick={() => setModalMesa(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '420px' }}>
             <div className="modal-header">
-              <h2>🪑 Seleccionar Mesa</h2>
+              <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Armchair size={20} /> Seleccionar Mesa</h2>
               <button onClick={() => setModalMesa(false)}>✕</button>
             </div>
             <div className="modal-body">
@@ -274,7 +301,7 @@ const Menu = () => {
                       style={{ padding: '1rem 0.5rem', borderRadius: '8px', border: '2px solid', cursor: 'pointer', textAlign: 'center',
                         borderColor: String(mesaId) === String(mesa.idMesa) ? '#2563eb' : '#e2e8f0',
                         background: String(mesaId) === String(mesa.idMesa) ? '#eff6ff' : 'white' }}>
-                      <div style={{ fontSize: '1.5rem' }}>🪑</div>
+                      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.25rem' }}><Armchair size={24} /></div>
                       <div style={{ fontWeight: 'bold' }}>Mesa {mesa.numeroMesa}</div>
                       <div style={{ fontSize: '0.75rem', color: '#888' }}>{mesa.capacidad} pers.</div>
                     </button>
@@ -291,7 +318,7 @@ const Menu = () => {
         <div className="modal-overlay" onClick={() => setModalCarrito(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>🛒 Tu Pedido {mesaId ? `— Mesa #${mesaId}` : ''}</h2>
+              <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><ShoppingCart size={20} /> Tu Pedido {mesaId ? `— Mesa #${mesaId}` : ''}</h2>
               <button onClick={() => setModalCarrito(false)}>✕</button>
             </div>
             <div className="modal-body">
@@ -311,7 +338,7 @@ const Menu = () => {
                         <button onClick={() => actualizarCantidad(item.id, item.cantidad + 1)}>+</button>
                       </div>
                       <div className="item-subtotal">${(item.precio * item.cantidad).toLocaleString()}</div>
-                      <button className="btn-eliminar" onClick={() => actualizarCantidad(item.id, 0)}>🗑️</button>
+                      <button className="btn-eliminar" onClick={() => actualizarCantidad(item.id, 0)}><Trash2 size={14} /></button>
                     </div>
                   ))}
                   <div className="carrito-total">
@@ -324,7 +351,7 @@ const Menu = () => {
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={() => setModalCarrito(false)}>Seguir viendo</button>
               <button className="btn btn-primary" onClick={realizarPedido} disabled={carrito.length === 0}>
-                {user ? 'Confirmar Pedido' : '📝 Pedir (Registrarse)'}
+                Confirmar Pedido
               </button>
             </div>
           </div>
@@ -378,7 +405,7 @@ const Menu = () => {
                     placeholder="Mínimo 4 caracteres" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #e2e8f0', boxSizing: 'border-box' }} />
                 </div>
                 <button type="submit" disabled={authLoading} style={{ width: '100%', padding: '0.85rem', background: '#2563eb', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1rem', fontWeight: '600', cursor: 'pointer' }}>
-                  {authLoading ? 'Registrando...' : '✅ Registrarme y Pedir'}
+                  {authLoading ? 'Registrando...' : 'Registrarme y Pedir'}
                 </button>
                 <p style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.82rem', color: '#6b7280' }}>
                   Al registrarte aceptas los términos del servicio
@@ -397,13 +424,218 @@ const Menu = () => {
                     placeholder="••••••••" style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #e2e8f0', boxSizing: 'border-box' }} />
                 </div>
                 <button type="submit" disabled={authLoading} style={{ width: '100%', padding: '0.85rem', background: '#2563eb', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1rem', fontWeight: '600', cursor: 'pointer' }}>
-                  {authLoading ? 'Ingresando...' : '🔑 Ingresar y Pedir'}
+                  {authLoading ? 'Ingresando...' : 'Ingresar y Pedir'}
                 </button>
               </form>
             )}
           </div>
         </div>
       )}
+
+      {/* Modal seguimiento de pedido */}
+      {pedidoActivo && showPedidoModal && (() => {
+        const PASOS = [
+          { key: 'pendiente',      label: 'Recibido',   icon: Clock },
+          { key: 'en_preparacion', label: 'Preparando', icon: ChefHat },
+          { key: 'listo',          label: 'Listo',      icon: Bell },
+          { key: 'entregado',      label: 'Entregado',  icon: CheckCircle },
+        ];
+        const ORDEN = PASOS.map(p => p.key);
+        const idxActual = ORDEN.indexOf(pedidoActivo.estado);
+        const INFO = {
+          pendiente:      { color: '#E8A830', bg: 'linear-gradient(135deg,#1C1008,#3A2010)', msg: '¡Pedido recibido!',    sub: 'Tu pedido llegó a cocina, pronto empezamos.' },
+          en_preparacion: { color: '#3498db', bg: 'linear-gradient(135deg,#1a3a5c,#2563eb)', msg: 'Estamos preparándolo', sub: 'Nuestro equipo trabaja en tu pedido.' },
+          listo:          { color: '#27ae60', bg: 'linear-gradient(135deg,#064e3b,#059669)', msg: '¡Listo para servir!',  sub: 'Tu pedido va en camino a tu mesa.' },
+          entregado:      { color: '#C8862A', bg: 'linear-gradient(135deg,#1C1008,#C8862A)', msg: '¡Buen provecho!',     sub: 'Gracias por tu visita. ¡Disfrútalo!' },
+        };
+        const info = INFO[pedidoActivo.estado] || INFO.pendiente;
+        const IconoPrincipal = PASOS.find(p => p.key === pedidoActivo.estado)?.icon || Clock;
+        return (
+          <div className="seguimiento-overlay">
+            <div className="seguimiento-modal">
+              {/* Cabecera con gradiente */}
+              <div className="seguimiento-header" style={{ background: info.bg }}>
+                <div className="seguimiento-icon-wrap">
+                  <IconoPrincipal size={44} color="white" strokeWidth={1.5} />
+                </div>
+                <h2 className="seguimiento-titulo">{info.msg}</h2>
+                <p className="seguimiento-subtitulo">{info.sub}</p>
+                <div className="seguimiento-codigo">
+                  Pedido #{pedidoActivo.codigo} · Mesa {mesaId}
+                </div>
+              </div>
+
+              <div className="seguimiento-body">
+                {/* Stepper */}
+                <div className="seguimiento-stepper">
+                  {PASOS.map((paso, idx) => {
+                    const Icono = paso.icon;
+                    const completado = idx < idxActual;
+                    const activo    = idx === idxActual;
+                    return (
+                      <div key={paso.key} className="seguimiento-step-wrap">
+                        <div className={`seguimiento-step ${completado ? 'completado' : activo ? 'activo' : ''}`}>
+                          <Icono size={16} />
+                        </div>
+                        <span className={`seguimiento-step-label ${activo ? 'activo' : completado ? 'completado' : ''}`}>
+                          {paso.label}
+                        </span>
+                        {idx < PASOS.length - 1 && (
+                          <div className={`seguimiento-linea ${completado ? 'completado' : ''}`} />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Items */}
+                <div className="seguimiento-items">
+                  {pedidoActivo.items.map((item, i) => (
+                    <div key={i} className="seguimiento-item">
+                      <span className="seguimiento-item-qty">{item.cantidad}×</span>
+                      <span className="seguimiento-item-nombre">{item.nombre}</span>
+                      <span className="seguimiento-item-precio">${(item.precio * item.cantidad).toLocaleString()}</span>
+                    </div>
+                  ))}
+                  <div className="seguimiento-total">
+                    <span>Total</span>
+                    <span>${pedidoActivo.total.toLocaleString()}</span>
+                  </div>
+                </div>
+
+                {pedidoActivo.estado === 'listo' && (
+                  <div className="seguimiento-alerta-listo">
+                    <Bell size={18} />
+                    ¡Tu pedido va en camino! El mesero lo llevará a tu mesa.
+                  </div>
+                )}
+
+                {pedidoActivo.estado !== 'entregado' && pedidoActivo.estado !== 'cancelado' && (
+                  <p className="seguimiento-hint">Actualizando automáticamente cada 8 segundos</p>
+                )}
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                  {(pedidoActivo.estado === 'listo' || pedidoActivo.estado === 'entregado') && (
+                    <button className="cuenta-btn-ver"
+                      onClick={() => { setShowCuenta(true); setShowPedidoModal(false); }}>
+                      <Receipt size={17} /> Ver mi cuenta
+                    </button>
+                  )}
+                  {(pedidoActivo.estado === 'entregado' || pedidoActivo.estado === 'cancelado') ? (
+                    <button className="seguimiento-btn-cerrar"
+                      onClick={() => { setPedidoActivo(null); setShowPedidoModal(false); }}>
+                      Volver al menú
+                    </button>
+                  ) : (
+                    <button className="seguimiento-btn-cerrar"
+                      onClick={() => setShowPedidoModal(false)}>
+                      Seguir viendo el menú
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Modal cuenta */}
+      {showCuenta && pedidoActivo && (
+        <div className="seguimiento-overlay">
+          <div className="cuenta-modal">
+            <button className="cuenta-close" onClick={() => { setShowCuenta(false); setShowPedidoModal(true); }}>
+              <X size={18} />
+            </button>
+
+            {/* Encabezado estilo ticket */}
+            <div className="cuenta-header">
+              <div className="cuenta-logo">
+                <UtensilsCrossed size={28} color="#C8862A" />
+              </div>
+              <h2>Café Bar</h2>
+              <p>Mesa {mesaId}</p>
+              <div className="cuenta-divider-dots" />
+            </div>
+
+            <div className="cuenta-body">
+              <div className="cuenta-info-row">
+                <span>Pedido</span><span>#{pedidoActivo.codigo}</span>
+              </div>
+              <div className="cuenta-info-row">
+                <span>Fecha</span><span>{new Date().toLocaleDateString('es-CO', { day:'2-digit', month:'short', year:'numeric' })}</span>
+              </div>
+              <div className="cuenta-info-row">
+                <span>Hora</span><span>{new Date().toLocaleTimeString('es-CO', { hour:'2-digit', minute:'2-digit' })}</span>
+              </div>
+
+              <div className="cuenta-divider" />
+
+              <div className="cuenta-items-header">
+                <span>Producto</span><span>Cant.</span><span>Valor</span>
+              </div>
+              {pedidoActivo.items.map((item, i) => (
+                <div key={i} className="cuenta-item-row">
+                  <span className="cuenta-item-nombre">{item.nombre}</span>
+                  <span className="cuenta-item-cant">{item.cantidad}</span>
+                  <span className="cuenta-item-val">${(item.precio * item.cantidad).toLocaleString()}</span>
+                </div>
+              ))}
+
+              <div className="cuenta-divider" />
+
+              <div className="cuenta-subtotal-row">
+                <span>Subtotal</span>
+                <span>${pedidoActivo.total.toLocaleString()}</span>
+              </div>
+              <div className="cuenta-subtotal-row" style={{ color: '#888', fontSize: '0.82rem' }}>
+                <span>IVA incluido</span>
+                <span>—</span>
+              </div>
+
+              <div className="cuenta-total-row">
+                <span>TOTAL</span>
+                <span>${pedidoActivo.total.toLocaleString()}</span>
+              </div>
+
+              <div className="cuenta-divider-dots" style={{ margin: '1.25rem 0 1rem' }} />
+
+              <p className="cuenta-gracias">¡Gracias por tu visita!</p>
+              <p className="cuenta-hint">Solicita el pago al mesero</p>
+
+              <button className="cuenta-btn-volver"
+                onClick={() => {
+                  setShowCuenta(false);
+                  if (pedidoActivo.estado !== 'entregado') setShowPedidoModal(true);
+                }}>
+                {pedidoActivo.estado === 'entregado' ? 'Cerrar' : 'Volver al pedido'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Botón flotante cuando hay pedido activo y modales cerrados */}
+      {pedidoActivo && !showPedidoModal && !showCuenta && (() => {
+        if (pedidoActivo.estado === 'entregado') {
+          return (
+            <button className="seguimiento-fab" onClick={() => setShowCuenta(true)}
+              style={{ background: 'linear-gradient(135deg,#1C1008,#C8862A)' }}>
+              <Receipt size={18} />
+              <span>Ver mi cuenta</span>
+            </button>
+          );
+        }
+        const colores = { listo: '#27ae60', en_preparacion: '#2563eb', pendiente: '#C8862A' };
+        const Icono = pedidoActivo.estado === 'listo' ? Bell : pedidoActivo.estado === 'en_preparacion' ? ChefHat : Clock;
+        const labels = { listo: '¡Tu pedido está listo!', en_preparacion: 'En preparación…', pendiente: 'Ver mi pedido' };
+        return (
+          <button className="seguimiento-fab" onClick={() => setShowPedidoModal(true)}
+            style={{ background: colores[pedidoActivo.estado] || '#C8862A' }}>
+            <Icono size={18} />
+            <span>{labels[pedidoActivo.estado] || 'Ver mi pedido'}</span>
+          </button>
+        );
+      })()}
     </div>
   );
 };

@@ -1,16 +1,16 @@
 /* KPIs para Admin */
 .kpis-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .kpi-card {
   background: white;
   border-radius: 16px;
-  padding: 2.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 2rem 2.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -26,11 +26,15 @@
 }
 
 .kpi-card.kpi-warning {
-  border-left-color: #f39c12;
+  border-left-color: #E8A830;
 }
 
 .kpi-card.kpi-primary {
-  border-left-color: #667eea;
+  border-left-color: #C8862A;
+}
+
+.kpi-card.kpi-danger {
+  border-left-color: #e74c3c;
 }
 
 .kpi-icon {
@@ -40,12 +44,12 @@
 .kpi-content h3 {
   font-size: 3rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: #1C1008;
   font-weight: 700;
 }
 
 .kpi-content p {
-  color: #666;
+  color: #888;
   font-size: 1.1rem;
 }
 
@@ -54,13 +58,13 @@
   background: white;
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   margin-bottom: 3rem;
 }
 
 .top-productos h2 {
   margin-bottom: 1.5rem;
-  color: #333;
+  color: #1C1008;
   font-size: 1.8rem;
   font-weight: 600;
 }
@@ -75,52 +79,57 @@
   background: white;
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .modulos-gestion h2 {
   margin-bottom: 1.5rem;
-  color: #333;
+  color: #1C1008;
   font-size: 1.8rem;
   font-weight: 600;
 }
 
 .modulos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
 .modulo-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1C1008 0%, #3A2010 100%);
   color: white;
   border-radius: 16px;
-  padding: 2.5rem 2rem;
+  padding: 2.5rem;
   text-decoration: none;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
   transition: all 0.3s;
+  border: 2px solid transparent;
 }
 
 .modulo-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(200, 134, 42, 0.3);
+  border-color: #C8862A;
 }
 
 .modulo-card span {
-  display: block;
-  font-size: 3.5rem;
-  margin-bottom: 1.25rem;
+  font-size: 2.8rem;
+  flex-shrink: 0;
 }
 
 .modulo-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+  font-weight: 700;
+  color: #E8A830;
 }
 
 .modulo-card p {
-  font-size: 1rem;
-  opacity: 0.9;
+  font-size: 0.9rem;
+  opacity: 0.75;
+  margin: 0;
 }
 
 @media (max-width: 768px) {

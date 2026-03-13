@@ -14,7 +14,7 @@
 .dashboard-trabajador h1,
 .dashboard-admin h1 {
   font-size: 2.5rem;
-  color: #333;
+  color: #1C1008;
   font-weight: 700;
 }
 
@@ -30,7 +30,7 @@
   background: white;
   border-radius: 16px;
   padding: 2.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -38,7 +38,7 @@
 }
 
 .stat-card.stat-warning {
-  border-left-color: #f39c12;
+  border-left-color: #E8A830;
 }
 
 .stat-card.stat-success {
@@ -60,12 +60,12 @@
 .stat-info h3 {
   font-size: 3rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: #1C1008;
   font-weight: 700;
 }
 
 .stat-info p {
-  color: #666;
+  color: #888;
   font-size: 1.1rem;
 }
 
@@ -74,13 +74,13 @@
   background: white;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   margin-bottom: 2rem;
 }
 
 .actividad-reciente h2 {
   margin-bottom: 1rem;
-  color: #333;
+  color: #1C1008;
 }
 
 .pedidos-lista {
@@ -94,13 +94,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: #f8f9fa;
+  background: #F7F3EE;
   border-radius: 8px;
   transition: background 0.3s;
 }
 
 .pedido-item:hover {
-  background: #e9ecef;
+  background: #EDE8E0;
 }
 
 .pedido-info {
@@ -111,7 +111,7 @@
 
 .pedido-info .numero {
   font-weight: 700;
-  color: #667eea;
+  color: #C8862A;
 }
 
 .pedido-info .mesa {
@@ -161,12 +161,12 @@
   background: white;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .acciones-rapidas h2 {
   margin-bottom: 1rem;
-  color: #333;
+  color: #1C1008;
 }
 
 .acciones-grid {
@@ -176,21 +176,21 @@
 }
 
 .accion-card {
-  background: #f8f9fa;
+  background: #F7F3EE;
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
   text-decoration: none;
-  color: #333;
+  color: #2C1A0E;
   transition: all 0.3s;
   border: 2px solid transparent;
 }
 
 .accion-card:hover {
   background: white;
-  border-color: #667eea;
+  border-color: #C8862A;
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 12px rgba(200, 134, 42, 0.2);
 }
 
 .accion-card span {
@@ -201,7 +201,7 @@
 
 .accion-card p {
   font-weight: 600;
-  color: #333;
+  color: #1C1008;
 }
 
 @media (max-width: 768px) {

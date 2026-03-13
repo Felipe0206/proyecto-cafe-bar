@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { reservaService } from '../../services/api';
+import { RefreshCw, CalendarDays, Users, Clock } from 'lucide-react';
+import '../modulos.css';
 
-const COLOR_ESTADO = { pendiente: '#f59e0b', confirmada: '#10b981', cancelada: '#ef4444', completada: '#6b7280' };
+const COLOR_ESTADO = { pendiente: '#E8A830', confirmada: '#27ae60', cancelada: '#e74c3c', completada: '#888' };
 
 const ReservasAdmin = () => {
   const [reservas, setReservas] = useState([]);
@@ -29,63 +30,61 @@ const ReservasAdmin = () => {
 
   const filtradas = filtro === 'todas' ? reservas : reservas.filter(r => r.estado === filtro);
 
-  if (loading) return <div style={{ padding: '2rem', textAlign: 'center' }}>Cargando reservas...</div>;
+  if (loading) return <div className="modulo-loading">Cargando reservas...</div>;
 
   return (
-    <div style={{ padding: '1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <Link to="/admin/dashboard" style={{ textDecoration: 'none', fontSize: '1.4rem', color: '#2563eb' }}>←</Link>
-          <h1 style={{ margin: 0, fontSize: '1.5rem' }}>📅 Gestión de Reservas</h1>
-        </div>
-        <button onClick={cargar} style={{ padding: '0.5rem 1rem', borderRadius: '6px', border: '1px solid #e2e8f0', background: 'white', cursor: 'pointer' }}>🔄</button>
+    <div>
+      <div className="modulo-header">
+        <h1>Gestión de Reservas</h1>
+        <button onClick={cargar} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <RefreshCw size={16} /> Actualizar
+        </button>
       </div>
 
-      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+      <div className="modulo-filtros">
         {['todas', 'pendiente', 'confirmada', 'cancelada', 'completada'].map(f => (
-          <button key={f} onClick={() => setFiltro(f)}
-            style={{ padding: '0.4rem 1rem', borderRadius: '20px', border: 'none', cursor: 'pointer',
-              background: filtro === f ? '#2563eb' : '#f1f5f9', color: filtro === f ? 'white' : '#374151' }}>
+          <button key={f} onClick={() => setFiltro(f)} className={`modulo-filtro-btn${filtro === f ? ' activo' : ''}`}>
             {f === 'todas' ? 'Todas' : f.charAt(0).toUpperCase() + f.slice(1)} ({(f === 'todas' ? reservas : reservas.filter(r => r.estado === f)).length})
           </button>
         ))}
       </div>
 
       {filtradas.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '3rem', background: 'white', borderRadius: '12px', color: '#9ca3af' }}>
-          No hay reservas
-        </div>
+        <div className="modulo-tabla-wrap"><div className="modulo-tabla-vacio">No hay reservas</div></div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
+        <div className="cards-grid">
           {filtradas.sort((a, b) => new Date(a.fechaReserva) - new Date(b.fechaReserva)).map(r => (
-            <div key={r.idReserva} style={{ background: 'white', borderRadius: '10px', padding: '1.25rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', borderLeft: `4px solid ${COLOR_ESTADO[r.estado] || '#9ca3af'}` }}>
+            <div key={r.idReserva} className="item-card" style={{ borderLeft: `4px solid ${COLOR_ESTADO[r.estado] || '#aaa'}` }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                 <div>
-                  <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{r.codigoConfirmacion}</div>
-                  <div style={{ color: '#6b7280', fontSize: '0.82rem' }}>Mesa {r.idMesa}</div>
+                  <div style={{ fontWeight: '700', fontSize: '0.95rem', color: '#1C1008' }}>{r.codigoConfirmacion}</div>
+                  <div style={{ color: '#888', fontSize: '0.82rem' }}>Mesa {r.idMesa}</div>
                 </div>
-                <span style={{ background: COLOR_ESTADO[r.estado] + '22', color: COLOR_ESTADO[r.estado], padding: '3px 10px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: '600', textTransform: 'capitalize' }}>
+                <span className="estado-badge" style={{ background: COLOR_ESTADO[r.estado] + '22', color: COLOR_ESTADO[r.estado] }}>
                   {r.estado}
                 </span>
               </div>
-              <div style={{ fontSize: '0.88rem', color: '#4b5563', marginBottom: '0.75rem' }}>
-                <div>📅 {r.fechaReserva} · {r.horaReserva}</div>
-                <div>👥 {r.numeroPersonas} personas</div>
-                {r.duracionEstimada > 0 && <div>⏱️ {r.duracionEstimada} min estimados</div>}
-                {r.motivo && <div>📝 {r.motivo}</div>}
+
+              <div style={{ fontSize: '0.88rem', color: '#555', marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <CalendarDays size={13} color="#C8862A" /> {r.fechaReserva} · {r.horaReserva}
+                </span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Users size={13} color="#C8862A" /> {r.numeroPersonas} personas
+                </span>
+                {r.duracionEstimada > 0 && (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <Clock size={13} color="#C8862A" /> {r.duracionEstimada} min estimados
+                  </span>
+                )}
               </div>
+
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 {r.estado === 'pendiente' && (
-                  <button onClick={() => confirmar(r)}
-                    style={{ flex: 1, padding: '0.4rem', background: '#10b981', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>
-                    Confirmar
-                  </button>
+                  <button onClick={() => confirmar(r)} className="btn-accion" style={{ flex: 1, background: '#27ae60' }}>Confirmar</button>
                 )}
                 {['pendiente', 'confirmada'].includes(r.estado) && (
-                  <button onClick={() => cancelar(r)}
-                    style={{ flex: 1, padding: '0.4rem', background: '#fee2e2', color: '#dc2626', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>
-                    Cancelar
-                  </button>
+                  <button onClick={() => cancelar(r)} className="btn-eliminar" style={{ flex: 1 }}>Cancelar</button>
                 )}
               </div>
             </div>

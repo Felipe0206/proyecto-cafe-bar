@@ -1,0 +1,320 @@
+/* ===== ESTILOS COMPARTIDOS PARA TODOS LOS MÓDULOS ===== */
+
+/* Header del módulo */
+.modulo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.modulo-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1C1008;
+  margin: 0;
+}
+
+/* Barra de búsqueda */
+.modulo-search {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #EDE8E0;
+  margin-bottom: 1.25rem;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  background: white;
+  color: #2C1A0E;
+  transition: border-color 0.2s;
+}
+
+.modulo-search:focus {
+  outline: none;
+  border-color: #C8862A;
+}
+
+/* Filtros de pestañas */
+.modulo-filtros {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.modulo-filtro-btn {
+  padding: 0.45rem 1.1rem;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  background: #EDE8E0;
+  color: #2C1A0E;
+}
+
+.modulo-filtro-btn:hover {
+  background: #D4C9BC;
+}
+
+.modulo-filtro-btn.activo {
+  background: #C8862A;
+  color: white;
+  font-weight: 600;
+}
+
+/* Tabla estándar */
+.modulo-tabla-wrap {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+
+.modulo-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modulo-tabla thead tr {
+  background: #1C1008;
+}
+
+.modulo-tabla th {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #E8A830;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modulo-tabla td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #F7F3EE;
+  color: #2C1A0E;
+  font-size: 0.93rem;
+}
+
+.modulo-tabla tbody tr:hover td {
+  background: #FDF8F2;
+}
+
+.modulo-tabla-vacio {
+  text-align: center;
+  padding: 3rem;
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+/* Botones de acción en tabla */
+.btn-editar {
+  padding: 0.3rem 0.8rem;
+  background: #FDF3E0;
+  color: #C8862A;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-editar:hover { background: #C8862A; color: white; }
+
+.btn-eliminar {
+  padding: 0.3rem 0.8rem;
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: background 0.2s;
+}
+.btn-eliminar:hover { background: #dc2626; color: white; }
+
+.btn-accion {
+  padding: 0.3rem 0.8rem;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+.btn-accion:hover { opacity: 0.85; }
+
+/* Modal estándar */
+.modulo-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modulo-modal {
+  background: white;
+  border-radius: 14px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-top: 4px solid #C8862A;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.modulo-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #F7F3EE;
+}
+
+.modulo-modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #1C1008;
+}
+
+.modulo-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #aaa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  line-height: 1;
+}
+.modulo-modal-close:hover { background: #F7F3EE; color: #1C1008; }
+
+.modulo-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* Campos de formulario en modal */
+.modulo-field {
+  margin-bottom: 1rem;
+}
+
+.modulo-field label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #2C1A0E;
+}
+
+.modulo-field input,
+.modulo-field select,
+.modulo-field textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  border: 2px solid #EDE8E0;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+  background: white;
+  color: #2C1A0E;
+}
+
+.modulo-field input:focus,
+.modulo-field select:focus,
+.modulo-field textarea:focus {
+  outline: none;
+  border-color: #C8862A;
+  box-shadow: 0 0 0 3px rgba(200,134,42,0.12);
+}
+
+.modulo-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Badges de estado */
+.estado-badge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+/* Cards de resumen */
+.resumen-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.resumen-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border-top: 3px solid;
+}
+
+.resumen-card-valor {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1C1008;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.resumen-card-label {
+  font-size: 0.82rem;
+  color: #888;
+  text-transform: capitalize;
+}
+
+/* Info banner */
+.info-banner {
+  background: #FDF3E0;
+  border: 1px solid #E8C870;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.88rem;
+  color: #7A5010;
+}
+
+/* Loading */
+.modulo-loading {
+  padding: 3rem;
+  text-align: center;
+  color: #C8862A;
+  font-size: 1rem;
+}
+
+/* Grid de cards */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.item-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}

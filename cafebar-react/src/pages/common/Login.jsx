@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { Coffee } from 'lucide-react';
 import './Login.css';
 
 /**
@@ -34,8 +35,8 @@ const Login = () => {
 
         // Si hay URL de destino guardada y el rol tiene acceso, ir allí
         if (from) {
-          const esCliente = ['cliente', 'cajero'].includes(user.rol);
-          const esTrabajador = ['trabajador', 'mesero', 'chef'].includes(user.rol);
+          const esCliente = ['cliente'].includes(user.rol);
+          const esTrabajador = ['trabajador', 'mesero', 'chef', 'cajero'].includes(user.rol);
           const esAdmin = ['administrador', 'gerente'].includes(user.rol);
           const destinoCliente = from.startsWith('/cliente/');
           const destinoTrabajador = from.startsWith('/trabajador/');
@@ -50,12 +51,14 @@ const Login = () => {
         // Redirigir según rol (destino por defecto)
         switch (user.rol) {
           case 'cliente':
-          case 'cajero':
             navigate('/cliente/menu');
+            break;
+          case 'chef':
+            navigate('/trabajador/pedidos');
             break;
           case 'trabajador':
           case 'mesero':
-          case 'chef':
+          case 'cajero':
             navigate('/trabajador/dashboard');
             break;
           case 'administrador':
@@ -80,7 +83,8 @@ const Login = () => {
     <div className="login-container">
       <div className="login-box">
         <div className="login-header">
-          <h1>🍵 Café Bar</h1>
+          <Coffee size={40} color="#E8A830" style={{ marginBottom: '0.5rem' }} />
+          <h1>Café Bar</h1>
           <p>Sistema de Gestión</p>
         </div>
 
@@ -142,7 +146,7 @@ const Login = () => {
               <strong>Chef:</strong> ana@cafebar.com / 123456
             </div>
             <div className="test-user">
-              <strong>Cliente:</strong> cliente@test.com / 123456
+              <strong>Cajero:</strong> cliente@test.com / 123456
             </div>
           </div>
         </div>

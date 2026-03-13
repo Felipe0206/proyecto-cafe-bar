@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { pedidoService } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { ClipboardList, RefreshCw, CheckCircle } from 'lucide-react';
 import './Pedidos.css';
 
 /**
@@ -64,9 +65,9 @@ const PedidosCliente = () => {
   return (
     <div className="pedidos-cliente-container">
       <header>
-        <h1>📋 Mis Pedidos</h1>
-        <button className="btn-refresh" onClick={cargarPedidos}>
-          🔄 Actualizar
+        <h1>Mis Pedidos</h1>
+        <button className="btn-refresh" onClick={cargarPedidos} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <RefreshCw size={16} /> Actualizar
         </button>
       </header>
 
@@ -111,8 +112,8 @@ const PedidosCliente = () => {
               </div>
 
               {pedido.estado === 'listo' && (
-                <div className="alerta-listo">
-                  ✅ ¡Tu pedido está listo! Pasa a recogerlo.
+                <div className="alerta-listo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <CheckCircle size={18} /> ¡Tu pedido está listo! Pasa a recogerlo.
                 </div>
               )}
             </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { reservaService, mesaService } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { CalendarDays, CheckCircle, Clock, XCircle, Plus } from 'lucide-react';
 import './Reservas.css';
 
 /**
@@ -83,9 +84,9 @@ const ReservasCliente = () => {
   return (
     <div className="reservas-cliente-container">
       <header>
-        <h1>📅 Mis Reservas</h1>
-        <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-          + Nueva Reserva
+        <h1>Mis Reservas</h1>
+        <button className="btn btn-primary" onClick={() => setShowModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Plus size={16} /> Nueva Reserva
         </button>
       </header>
 
@@ -93,9 +94,10 @@ const ReservasCliente = () => {
         {reservas.map(reserva => (
           <div key={reserva.idReserva} className={`reserva-card ${reserva.estado}`}>
             <div className="reserva-icon">
-              {reserva.estado === 'confirmada' ? '✅' :
-               reserva.estado === 'pendiente' ? '⏳' :
-               reserva.estado === 'cancelada' ? '❌' : '✔️'}
+              {reserva.estado === 'confirmada' ? <CheckCircle size={28} color="#27ae60" /> :
+               reserva.estado === 'pendiente' ? <Clock size={28} color="#E8A830" /> :
+               reserva.estado === 'cancelada' ? <XCircle size={28} color="#e74c3c" /> :
+               <CheckCircle size={28} color="#27ae60" />}
             </div>
             <div className="reserva-info">
               <h3>{new Date(reserva.fechaReserva).toLocaleDateString()}</h3>
